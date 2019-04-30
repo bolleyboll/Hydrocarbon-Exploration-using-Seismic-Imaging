@@ -1,6 +1,7 @@
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from skimage.transform import resize
 import numpy as np
+from model_predict import *
 im_width = 128
 im_height = 128
 border = 5
@@ -12,8 +13,8 @@ def pre_process_me(id_image, id_mask):
 
     # Get and resize train images and masks
 
-    X = np.zeros((im_height, im_width, im_chan), dtype=np.float32)
-    y = np.zeros((im_height, im_width, 1), dtype=np.float32)
+    X = np.zeros((1, im_height, im_width, im_chan), dtype=np.float32)
+    y = np.zeros((1, im_height, im_width, 1), dtype=np.float32)
     X_feat = np.zeros((n_features), dtype=np.float32)
 
     try:
@@ -33,8 +34,8 @@ def pre_process_me(id_image, id_mask):
         mask = resize(mask, (128, 128, 1), mode='constant', preserve_range=True)
 
         # Save images
-        X[..., 0] = x_img.squeeze() / 255
-        X[..., 1] = x_csum.squeeze()
+        X[0, ..., 0] = x_img.squeeze() / 255
+        X[0, ..., 1] = x_csum.squeeze()
         y = mask / 255
 
         return X, X_feat, y
@@ -42,4 +43,5 @@ def pre_process_me(id_image, id_mask):
         raise e
 
 
-print(pre_process_me("000e218f21.png", "000e218f21.png"))
+X, X_feat, Y = pre_process_me("000e218f21.png", "000e218f21.png")
+print(predict_me(X, X_feat))

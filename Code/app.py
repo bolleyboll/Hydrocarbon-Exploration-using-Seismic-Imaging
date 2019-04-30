@@ -1,10 +1,11 @@
 from PIL import Image
 import socket
 import os
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, flash
 from pre import pre_process_me
+from datetime import timedelta
 app = Flask(__name__)
-
+app.secret_key = b'some_secret'
 UPLOAD_FOLDER = os.path.basename('uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 MASK_FOLDER = os.path.basename('masks')
@@ -31,22 +32,24 @@ def hello_world():
     return render_template('index.html')
 
 
+@app.route('/')
+def default_access():
+    return render_template("index.html")
+
+
 @app.route('/', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
-        if get_mask() and get_image():
-            prediction = "Uploaded Successfully"
+        if get_mask() and get_image() and get_thres():
+            flash("Upload Success")
         else:
-            prediction = "Error :("
-        html = f'''<h3>Hello {os.getenv("NAME", "world")}!</h3>
-             <b>Hostname:</b> {socket.gethostname()}<br/>
-             <b>Message:</b> {prediction}<br/>'''
+            flash("Upload Failed")
 
-    return html
+    return render_template("index.html")
 
 
 @app.route('/', methods=['POST'])
-def upload_file():
+def predit_file():
     if 'mask_file_name' in session and 'image_file_name' in session:
         X, X_feat, Y = pre_process_me(session['image_file_name'], session['mask_file_name'])
         #call in model and predict
@@ -54,15 +57,25 @@ def upload_file():
     return html
 
 
+def get_thres():
+    try:
+        thres = request.form['Thres']
+        session['thres'] = thres
+        print(session)
+        return True
+    except Exception as e:
+        return False
+
+
 def get_image():
-    file = request.files['image']
+    file = request.files['Simage']
     f = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(f)
     flag = False
     try:
         im = Image.open(f)
         flag = True
-        session['image_file_name'] = file.filename
+        session['image_file_name'] = file.filename.split(".")[0] + ".PNG"
     except IOError as e:
         os.remove(f)
     im.thumbnail((101, 101))
@@ -79,7 +92,7 @@ def get_mask():
     try:
         im = Image.open(f)
         flag = True
-        session['mask_file_name'] = file.filename
+        session['mask_file_name'] = file.filename.split(".")[0] + ".PNG"
     except IOError as e:
         os.remove(f)
     im.thumbnail((101, 101))
