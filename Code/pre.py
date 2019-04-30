@@ -43,5 +43,7 @@ def pre_process_me(id_image, id_mask):
         raise e
 
 
-X, X_feat, Y = pre_process_me("000e218f21.png", "000e218f21.png")
+# X, X_feat, Y = pre_process_me("000e218f21.png", "000e218f21.png")
+# X, X_feat, Y = pre_process_me("0aabdb423e.png", "0aabdb423e.png")
+X, X_feat, Y = pre_process_me("0cc1d0e4c4.png", "0cc1d0e4c4.png")
 print(predict_me(X, X_feat))
