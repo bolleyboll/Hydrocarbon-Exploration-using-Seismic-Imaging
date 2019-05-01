@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, request, session, flash
 from pre import pre_process_me
 from datetime import timedelta
+from model_predict import predict_me
 app = Flask(__name__)
 app.secret_key = b'some_secret'
 UPLOAD_FOLDER = os.path.basename('uploads')
@@ -38,23 +39,29 @@ def default_access():
 
 
 @app.route('/', methods=['POST'])
-def upload_file():
+def home_page():
     if request.method == 'POST':
-        if get_mask() and get_image() and get_thres():
-            flash("Upload Success")
-        else:
-            flash("Upload Failed")
+        if request.args.get('type') == "upload_me":
+            if get_image() and get_thres():
+                flash("Upload Success")
+            else:
+                flash("Upload Failed")
 
-    return render_template("index.html")
+            return render_template("index.html")
 
 
-@app.route('/', methods=['POST'])
-def predit_file():
-    if 'mask_file_name' in session and 'image_file_name' in session:
-        X, X_feat, Y = pre_process_me(session['image_file_name'], session['mask_file_name'])
+@app.route('/predict', methods=['GET', 'POST'])
+def predicts_me():
+    if 'thres' in session and 'image_file_name' in session:
+        X, X_feat = pre_process_me(session['image_file_name'])
         #call in model and predict
-
-    return html
+        salt_prop, mask_graph = predict_me(X, X_feat, "0cc1d0e4c4.png", session['thres'])
+        flash('Plot Me')
+        return render_template("index.html", salt_prop=salt_prop, mask_graph=mask_graph)
+    else:
+        flash("Please Upload Seismic Image and Threshold Value")
+        return render_template("index.html")
+    return render_template("index.html")
 
 
 def get_thres():

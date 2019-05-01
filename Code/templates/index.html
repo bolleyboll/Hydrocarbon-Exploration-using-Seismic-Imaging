@@ -40,16 +40,16 @@
         <div class="container">
             <div>
                 <h2 class="text-center" style="margin:30px;">Input</h2>
-                <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ url_for('home_page', type='upload_me') }}" method="post" enctype="multipart/form-data">
                     <div class="form-group"><input class="form-control form-control-lg" type="number" name="Thres" placeholder="Threshold" required min="0" max="100" step="1"></div>
                     <div class="form-group">
                          <center>
                         <div class="btn-group btn-group-lg visible" role="group" style="padding:20px;margin:auto;display:block;">
                     <label for="imageUpload" class="btn btn-info btn-lg" style="margin:20px;margin-right:10px;">Choose a Seismic Image</label>
                     <input type="file" name="Simage" id="imageUpload" required accept="image/*" style="display: none">
-                           <label for="imageUpload1" class="btn btn-info btn-lg" style="margin:20px;margin-right:10px;">Choose a Mask Image</label>
+                          <!--  <label for="imageUpload1" class="btn btn-info btn-lg" style="margin:20px;margin-right:10px;">Choose a Mask Image</label>
                     <input type="file" name="mask" id="imageUpload1" required accept="image/*" style="display: none">
-
+ -->
                             <button
                                 class="btn btn-primary btn-lg" type="submit" style="margin:20px;margin-left:10px;">Submit</button>
                                 <button class="btn btn-danger btn-lg" type="reset" style="margin:20px;margin-left:10px;background-color:rgb(255,0,0);">Reset</button></div></center>
@@ -76,32 +76,96 @@
         <hr>
         <div class="container">
             <div>
-                <form action="{{ url_for('predit_file') }}" method="post" >
-                    <div class="form-group"><button class="btn btn-primary btn-lg" type="submit" style="font-size:51px;color:rgb(255,255,255);width:300px;height:60px;margin:auto;display:block;">PREDICT</button></div>
-                </form>
+                    <<button class="btn btn-primary btn-lg" type="button" style="font-size:51px;color:rgb(255,255,255);width:300px;height:60px;margin:auto;display:block;" onclick="window.location.href='{{ url_for('predicts_me', type='predict_me') }}'">PREDICT</button>
             </div>
         </div>
     </section>
     <hr>
     <div class="container">
         <div>
-            <h2 class="text-center" style="margin:30px;">Results</h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus felis et libero scelerisque, sed aliquet nulla tincidunt. Quisque lorem nisl, semper vitae mattis nec, vestibulum nec risus. Sed ut volutpat tortor, ut sodales diam. Integer at tristique turpis. Integer orci leo, fringilla ac aliquet vitae, condimentum non lorem. Duis velit ex, aliquam vel pellentesque et, dictum vitae mauris. Vestibulum commodo luctus tortor eu ultrices. Fusce commodo enim non eros consectetur maximus. Donec venenatis dolor ut vestibulum fermentum. Aliquam malesuada sit amet nulla id imperdiet. Suspendisse maximus purus et ligula maximus, a luctus ante fringilla.
+            <h2 class="text-center" style="margin:30px;">Results</h2>
+            {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% if "Plot Me" in messages %}
+                            The <strong>Proportion of Salt</strong> in the given region is <strong>{{salr_prop}}</strong>
+                        {% else %}
+                             <ul type="disc">
+<li>Where there is salt, there is oil.</li>
+<li>But where is the salt?</li>
+<li>Classifying seismic imaging currently requires human (salt/not salt)</li>
+<li>Can we use an algorithm to do this instead? (yes)</li>
+<li>Seismic data is like an ultra-sound of the subsurface</li>
+<li>It uses wavelengths around 1m to 100m</li>
+<li>The Society of Exploration Geophysicists has 10K publications using the keyword 'salt'</li>
+<li>We can think of Earth as layered.</li>
+<li>Sand gets deposited on top of existing sand. And in comes the salt.</li>
+<li>There is an entire research branch dedicated to salt tectonics, that is the movement of salt in the subsurface.</li>
+                             </ul>
+                          {% endif %}
+                     {% else %}
+                             <ul type="disc">
+<li>Where there is salt, there is oil.</li>
+<li>But where is the salt?</li>
+<li>Classifying seismic imaging currently requires human (salt/not salt)</li>
+<li>Can we use an algorithm to do this instead? (yes)</li>
+<li>Seismic data is like an ultra-sound of the subsurface</li>
+<li>It uses wavelengths around 1m to 100m</li>
+<li>The Society of Exploration Geophysicists has 10K publications using the keyword 'salt'</li>
+<li>We can think of Earth as layered.</li>
+<li>Sand gets deposited on top of existing sand. And in comes the salt.</li>
+<li>There is an entire research branch dedicated to salt tectonics, that is the movement of salt in the subsurface.</li>
+                             </ul>
+                    {% endif %}
+                {% endwith %}
 
-In vitae velit risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus tincidunt venenatis mi quis congue. Cras eu leo nisi. Ut ornare nisi eget sapien dapibus, eu ornare dolor egestas. Donec venenatis neque lacus, nec mollis odio fermentum a. Maecenas at elit sed diam elementum varius mollis vel arcu. Praesent ornare nisl mi, et posuere purus viverra sed. Sed a lacus nec lorem tincidunt condimentum. Nulla eu tellus pulvinar, tristique metus a, sodales nibh. Ut magna nisi, laoreet id lacus non, cursus bibendum tortor. Sed pretium elit erat. In non pretium nulla.
             <div><div class="row">
         <div class="col s12 m7">
           <div class="card">
-            <div class="card-image">
-              <img src="static/img/sample-1.jpg">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
+            {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% if "Plot Me" in messages %}
+                            <div class="chart" id="heatmap">
+                            <script>
+                                var graphs = {{mask_graph[0] | safe}};
+                                var lays = {{mask_graph[1] | safe}};
+                                Plotly.plot('heatmap',graphs,lays);
+                            </script>
+                            <span class="card-title">Card Title</span>
+                            </div>
+                            <div class="card-content">
+                              <p>I am a very simple card. I am good at containing small bits of information.
+                              I am convenient because I require little markup to use effectively.</p>
+                            </div>
+                            <div class="card-action">
+                              <a href="#">This is a link</a>
+                            </div>
+                        {% else %}
+                              <div class="card-image">
+                                  <img src="static/img/sample-1.jpg">
+                                  <span class="card-title">Card Title</span>
+                                </div>
+                                <div class="card-content">
+                                  <p>I am a very simple card. I am good at containing small bits of information.
+                                  I am convenient because I require little markup to use effectively.</p>
+                                </div>
+                                <div class="card-action">
+                                  <a href="#">This is a link</a>
+                                </div>
+                        {% endif %}
+                         {% else %}
+                              <div class="card-image">
+                                  <img src="static/img/sample-1.jpg">
+                                  <span class="card-title">Card Title</span>
+                                </div>
+                                <div class="card-content">
+                                  <p>I am a very simple card. I am good at containing small bits of information.
+                                  I am convenient because I require little markup to use effectively.</p>
+                                </div>
+                                <div class="card-action">
+                                  <a href="#">This is a link</a>
+                                </div>
+                    {% endif %}
+                {% endwith %}
           </div>
         </div>
       </div><div class="row">
@@ -153,6 +217,8 @@ In vitae velit risus. Cum sociis natoque penatibus et magnis dis parturient mont
     <script src="static/js/bootstrap.min.js"></script>
     <script src="static/js/Animated-Type-Heading.js"></script>
     <script src="static/js/image-card-materialize.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 </body>
 
 </html>
