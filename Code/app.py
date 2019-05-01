@@ -49,7 +49,7 @@ def upload_file():
 
 
 @app.route('/', methods=['POST'])
-def predit_file():
+def predict_file():
     if 'mask_file_name' in session and 'image_file_name' in session:
         X, X_feat, Y = pre_process_me(session['image_file_name'], session['mask_file_name'])
         #call in model and predict

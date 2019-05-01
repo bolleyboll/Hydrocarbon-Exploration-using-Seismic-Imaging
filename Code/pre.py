@@ -19,7 +19,7 @@ def pre_process_me(id_image, id_mask):
 
     try:
 
-        img = load_img('D:\\Github Repos\\Hydrocarbon-Exploration-using-Seismic-Imaging\\Code\\uploads\\' + id_image, grayscale=True)
+        img = load_img('.\\uploads\\' + id_image, grayscale=True)
         x_img = img_to_array(img)
         x_img = resize(x_img, (128, 128, 1), mode='constant', preserve_range=True)
 
@@ -30,7 +30,7 @@ def pre_process_me(id_image, id_mask):
         x_csum /= max(1e-3, x_csum[border:-border, border:-border].std())
 
         # Load Y
-        mask = img_to_array(load_img('D:\\Github Repos\\Hydrocarbon-Exploration-using-Seismic-Imaging\\Code\\masks\\' + id_mask, grayscale=True))
+        mask = img_to_array(load_img('.\\masks\\' + id_mask, grayscale=True))
         mask = resize(mask, (128, 128, 1), mode='constant', preserve_range=True)
 
         # Save images
