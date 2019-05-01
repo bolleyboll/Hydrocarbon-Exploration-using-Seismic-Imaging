@@ -11,7 +11,14 @@
     <link rel="stylesheet" href="static/css/Footer-Clean.css">
     <link rel="stylesheet" href="static/css/image-card-materialize1.css">
     <link rel="stylesheet" href="static/css/styles.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/Animated-Type-Heading.js"></script>
+    <script src="static/js/image-card-materialize.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 </head>
+
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md">
@@ -87,7 +94,7 @@
             {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% if "Plot Me" in messages %}
-                            The <strong>Proportion of Salt</strong> in the given region is <strong>{{salr_prop}}</strong>
+                            The <strong>Proportion of Salt</strong> in the given region is <strong>{{salt_prop}}</strong>
                         {% else %}
                              <ul type="disc">
 <li>Where there is salt, there is oil.</li>
@@ -130,15 +137,6 @@
                                 var lays = {{mask_graph[1] | safe}};
                                 Plotly.plot('heatmap',graphs,lays);
                             </script>
-                            <span class="card-title">Card Title</span>
-                            </div>
-                            <div class="card-content">
-                              <p>I am a very simple card. I am good at containing small bits of information.
-                              I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div class="card-action">
-                              <a href="#">This is a link</a>
-                            </div>
                         {% else %}
                               <div class="card-image">
                                   <img src="static/img/sample-1.jpg">
@@ -170,19 +168,46 @@
         </div>
       </div><div class="row">
         <div class="col s12 m7">
-          <div class="card">
-            <div class="card-image">
-              <img src="static/img/sample-1.jpg">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
+         <div class="card">
+            {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% if "Plot Me" in messages %}
+                            <div class="chart" id="scattermap">
+                            <script>
+                                var graphs = {{plots[0] | safe}};
+                                var lays = {{plots[1] | safe}};
+                                Plotly.plot('scattermap',graphs,lays);
+                            </script>
+
+                        {% else %}
+                              <div class="card-image">
+                                  <img src="static/img/sample-1.jpg">
+                                  <span class="card-title">Card Title</span>
+                                </div>
+                                <div class="card-content">
+                                  <p>I am a very simple card. I am good at containing small bits of information.
+                                  I am convenient because I require little markup to use effectively.</p>
+                                </div>
+                                <div class="card-action">
+                                  <a href="#">This is a link</a>
+                                </div>
+                        {% endif %}
+                         {% else %}
+                              <div class="card-image">
+                                  <img src="static/img/sample-1.jpg">
+                                  <span class="card-title">Card Title</span>
+                                </div>
+                                <div class="card-content">
+                                  <p>I am a very simple card. I am good at containing small bits of information.
+                                  I am convenient because I require little markup to use effectively.</p>
+                                </div>
+                                <div class="card-action">
+                                  <a href="#">This is a link</a>
+                                </div>
+                    {% endif %}
+                {% endwith %}
           </div>
+
         </div>
       </div></div>
         </div>
@@ -213,12 +238,7 @@
             </div>
         </footer>
     </div>
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/Animated-Type-Heading.js"></script>
-    <script src="static/js/image-card-materialize.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
 </body>
 
 </html>
