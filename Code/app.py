@@ -55,9 +55,10 @@ def predicts_me():
     if 'thres' in session and 'image_file_name' in session:
         X, X_feat = pre_process_me(session['image_file_name'])
         #call in model and predict
-        salt_prop, mask_graph = predict_me(X, X_feat, "0cc1d0e4c4.png", session['thres'])
+        salt_prop, mask_graph, scats = predict_me(X, X_feat, "0cc1d0e4c4.png", session['thres'])
         flash('Plot Me')
-        return render_template("index.html", salt_prop=salt_prop, mask_graph=mask_graph)
+        print(salt_prop, mask_graph)
+        return render_template("index.html", salt_prop=salt_prop, mask_graph=mask_graph, plots=scats)
     else:
         flash("Please Upload Seismic Image and Threshold Value")
         return render_template("index.html")
@@ -67,7 +68,7 @@ def predicts_me():
 def get_thres():
     try:
         thres = request.form['Thres']
-        session['thres'] = thres
+        session['thres'] = int(thres)
         print(session)
         return True
     except Exception as e:

@@ -8,6 +8,8 @@ import plotly.graph_objs as go
 import plotly.plotly as py
 import json
 import tensorflow as tf
+import pickle
+import pandas as pd
 
 w, h = 128, 128
 
@@ -19,6 +21,32 @@ with gr.as_default():
     UNET.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 
+def scatter_random():
+    file = open('C:\\Users\\Admin\\Desktop\\Hydroproj\\Hydrocarbon-Exploration-using-Seismic-Imaging\\scatter.pickle', 'rb')
+    df = pickle.load(file)
+    trace = go.Scatter(
+        x=df['salt_proportion'], y=df['z'],
+        mode='markers'
+    )
+
+    data = [trace]
+    layout = go.Layout(
+        title='Correlation between Depth and the Presence of Salt',
+        autosize=True,
+        width=1000,
+        height=700,
+        xaxis=dict(
+            title='Salt Proportion',
+        ),
+        yaxis=dict(
+            title='Depth',
+        ),
+
+    )
+    graphJSON = (json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder), json.dumps(layout, cls=plotly.utils.PlotlyJSONEncoder))
+    return graphJSON
+
+
 def predict_me(X, X_feat, file_name, threshold=None):
 
     global gr
@@ -28,7 +56,7 @@ def predict_me(X, X_feat, file_name, threshold=None):
     mask_graph = get_mask_graph(Y, threshold)
     Y = Y.squeeze() * 255
     salt_prop = 0
-    if thershold:
+    if threshold:
         Y = np.array([[thres(int(j), threshold) for j in i] for i in Y])
         salt_prop = salt_proportion(Y, threshold)
     else:
@@ -48,7 +76,8 @@ def predict_me(X, X_feat, file_name, threshold=None):
     # plt.savefig("test.png", bbox_inches='tight')
     # img.show()
     # return salt_prop, 'result_' + file_name
-    return salt_prop, mask_graph
+
+    return salt_prop, mask_graph, scatter_random()
 
 
 def salt_proportion(Y, threshold):
@@ -78,7 +107,7 @@ def get_mask_graph(Z, threshold):
     trace = go.Heatmap(z=Z, colorscale='Hot')
     data = [trace]
     layout = go.Layout(
-        title='Regions with salt above Threshold' + str(threshold) + '%',
+        title='Regions with salt above Threshold' + ' ' + str(threshold) + '%',
         autosize=True,
         width=700,
         height=700,
