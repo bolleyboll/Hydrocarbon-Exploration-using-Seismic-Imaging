@@ -47,13 +47,16 @@ def scatter_random():
     return graphJSON
 
 
-def predict_me(X, X_feat, file_name, threshold=None):
-
+def predict_me(X, X_feat, file_name, threshold=None, gen_results=False):
     global gr
     with gr.as_default():
         Y = UNET.predict({'img': X, 'feat': X_feat})
     # print(Y)
-    mask_graph = get_mask_graph(Y, threshold)
+    if gen_results:
+        mask_graph = get_mask_graph(Y, threshold, ret_Y=True)
+    else:
+        mask_graph = get_mask_graph(Y, threshold)
+
     Y = Y.squeeze() * 255
     salt_prop = 0
     if threshold:
@@ -76,7 +79,6 @@ def predict_me(X, X_feat, file_name, threshold=None):
     # plt.savefig("test.png", bbox_inches='tight')
     # img.show()
     # return salt_prop, 'result_' + file_name
-
     return salt_prop, mask_graph, scatter_random()
 
 
@@ -101,9 +103,11 @@ def thres(x, t, ret=True, mul=1):
         return 0
 
 
-def get_mask_graph(Z, threshold):
+def get_mask_graph(Z, threshold, ret_Y=False):
     Z = Z.squeeze()
     Z = np.array([[thres(round(j, 2), threshold, mul=255) for j in i] for i in Z])
+    if ret_Y:
+        return Z
     trace = go.Heatmap(z=Z, colorscale='Hot')
     data = [trace]
     layout = go.Layout(

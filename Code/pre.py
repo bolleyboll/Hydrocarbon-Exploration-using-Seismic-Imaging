@@ -8,14 +8,16 @@ im_chan = 2
 n_features = 1
 
 
-def pre_process_me(id_image):
+def pre_process_me(id_image, uploads=True):
 
     X = np.zeros((1, im_height, im_width, im_chan), dtype=np.float32)
     X_feat = np.zeros((n_features), dtype=np.float32)
 
     try:
-
-        img = load_img('.\\uploads\\' + id_image, grayscale=True)
+        if uploads:
+            img = load_img('.\\uploads\\' + id_image, grayscale=True)
+        else:
+            img = load_img('.\\images\\' + id_image, grayscale=True)
         x_img = img_to_array(img)
         x_img = resize(x_img, (128, 128, 1), mode='constant', preserve_range=True)
 
