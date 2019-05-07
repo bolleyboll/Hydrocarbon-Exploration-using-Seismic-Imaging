@@ -9,10 +9,6 @@ from pre import pre_process_me
 class Generate_Result():
     root_path = ""
     thres = []
-    # train image + mask data
-
-    # training path
-    train_path = "D:\\Datasets\\tgs-salt-identification-challenge\\"
 
     def __init__(self, list_of_images, thres):
 
