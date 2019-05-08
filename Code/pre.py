@@ -17,7 +17,7 @@ def pre_process_me(id_image, uploads=True):
         if uploads:
             img = load_img('.\\uploads\\' + id_image, grayscale=True)
         else:
-            img = load_img('.\\images\\' + id_image, grayscale=True)
+            img = load_img('D:\\Hydrocarbon-Exploration-using-Seismic-Imaging\\data\\train\\images\\' + id_image, grayscale=True)
         x_img = img_to_array(img)
         x_img = resize(x_img, (128, 128, 1), mode='constant', preserve_range=True)
 

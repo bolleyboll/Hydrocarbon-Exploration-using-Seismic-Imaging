@@ -22,7 +22,7 @@ with gr.as_default():
 
 
 def scatter_random():
-    file = open('C:\\Users\\Admin\\Desktop\\Hydroproj\\Hydrocarbon-Exploration-using-Seismic-Imaging\\scatter.pickle', 'rb')
+    file = open('..\\..\\..\\scatter.pickle', 'rb')
     df = pickle.load(file)
     trace = go.Scatter(
         x=df['salt_proportion'], y=df['z'],
