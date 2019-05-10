@@ -58,7 +58,7 @@ class Generate_Result():
         
         extra = Rectangle((0, 0), 1, 1, fc="w", fill=False, edgecolor='none', linewidth=0)
         f.legend([extra,extra,extra], ("Genrated Result for 50%: A","Genrated Result for 60%: B","Genrated Result for 70%: C"))
-        f.suptitle('Results', fontsize=20)
+        #f.suptitle('Results', fontsize=20)
         extra = Rectangle((0, 0), 1, 1, fc="w", fill=False, edgecolor='none', linewidth=0)
         # f.legend(['Title 1', d[0], 'Title 2', line2], ['', 'Line 1', '', 'Line 2'],
         #    handler_map={basestring: LegendTitle({'fontsize': 18})}, loc='lower right', bbox_to_anchor=(0.5, -0.05),&nbsp; shadow=True, ncol=2)
@@ -75,5 +75,5 @@ class Generate_Result():
         mask = np.array(imageio.imread(mask_path), dtype=np.uint8)
         return image, mask
 
-ob=Generate_Result([1,2,3],[50,60,70])
+ob=Generate_Result([12,23,53,69,520],[30,50,90])
 ob.gen_res()
