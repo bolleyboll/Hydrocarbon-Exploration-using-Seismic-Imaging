@@ -1,6 +1,7 @@
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from skimage.transform import resize
 import numpy as np
+import os
 im_width = 128
 im_height = 128
 border = 5
@@ -15,9 +16,10 @@ def pre_process_me(id_image, uploads=True):
 
     try:
         if uploads:
-            img = load_img('.\\uploads\\' + id_image, grayscale=True)
+            img = load_img(os.path.join(os.getcwd(),"uploads",id_image), grayscale=True)
         else:
-            img = load_img('D:\\Hydrocarbon-Exploration-using-Seismic-Imaging\\data\\train\\images\\' + id_image, grayscale=True)
+
+            img = load_img(os.path.join("Hydrocarbon-Exploration-using-Seismic-Imaging","data",'train',"images",id_image), grayscale=True)
         x_img = img_to_array(img)
         x_img = resize(x_img, (128, 128, 1), mode='constant', preserve_range=True)
 

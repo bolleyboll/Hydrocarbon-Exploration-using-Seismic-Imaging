@@ -1,6 +1,8 @@
 from keras.models import load_model
 from PIL import Image
 import numpy as np
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 import plotly
@@ -10,6 +12,7 @@ import json
 import tensorflow as tf
 import pickle
 import pandas as pd
+import os
 
 w, h = 128, 128
 
@@ -22,7 +25,10 @@ with gr.as_default():
 
 
 def scatter_random():
-    file = open('..\\..\\..\\scatter.pickle', 'rb')
+    try:
+        file = open('..\\..\\..\\scatter.pickle', 'rb')
+    except Exception as e:
+        file=open(os.path.join(os.getcwd(),"scatter.pickle"),'rb')    
     df = pickle.load(file)
     trace = go.Scatter(
         x=df['salt_proportion'], y=df['z'],
@@ -33,7 +39,7 @@ def scatter_random():
     layout = go.Layout(
         title='Correlation between Depth and the Presence of Salt',
         autosize=True,
-        width=1000,
+        width=1280,
         height=700,
         xaxis=dict(
             title='Salt Proportion',

@@ -83,19 +83,21 @@
         <hr>
         <div class="container">
             <div>
-                    <<button class="btn btn-primary btn-lg" type="button" style="font-size:51px;color:rgb(255,255,255);width:300px;height:60px;margin:auto;display:block;" onclick="window.location.href='{{ url_for('predicts_me', type='predict_me') }}'">PREDICT</button>
+                    <button class="btn btn-primary btn-lg" type="button" style="font-size:51px;color:rgb(255,255,255);width:300px;height:60px;margin:auto;display:block;" onclick="window.location.href='{{ url_for('predicts_me', type='predict_me') }}'">PREDICT</button>
             </div>
         </div>
     </section>
     <hr>
     <div class="container">
         <div>
-            <h2 class="text-center" style="margin:30px;">Results</h2>
+            
             {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% if "Plot Me" in messages %}
+                        <h2 class="text-center" style="margin:30px;">Results</h2>
                             The <strong>Proportion of Salt</strong> in the given region is <strong>{{salt_prop}}</strong>
                         {% else %}
+                        <h2 class="text-center" style="margin:30px;">Fun Facts</h2>
                              <ul type="disc">
 <li>Where there is salt, there is oil.</li>
 <li>But where is the salt?</li>
@@ -110,6 +112,7 @@
                              </ul>
                           {% endif %}
                      {% else %}
+                       <h2 class="text-center" style="margin:30px;">Fun Facts</h2>
                              <ul type="disc">
 <li>Where there is salt, there is oil.</li>
 <li>But where is the salt?</li>
@@ -128,6 +131,7 @@
             <div><div class="row">
         <div class="col s12 m7">
           <div class="card">
+            <center>
             {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% if "Plot Me" in messages %}
@@ -138,7 +142,7 @@
                                 Plotly.plot('heatmap',graphs,lays);
                             </script>
                         {% else %}
-                              <div class="card-image">
+                              <!-- <div class="card-image">
                                   <img src="static/img/sample-1.jpg">
                                   <span class="card-title">Card Title</span>
                                 </div>
@@ -148,10 +152,10 @@
                                 </div>
                                 <div class="card-action">
                                   <a href="#">This is a link</a>
-                                </div>
+                                </div> -->
                         {% endif %}
                          {% else %}
-                              <div class="card-image">
+                             <!--  <div class="card-image">
                                   <img src="static/img/sample-1.jpg">
                                   <span class="card-title">Card Title</span>
                                 </div>
@@ -161,14 +165,16 @@
                                 </div>
                                 <div class="card-action">
                                   <a href="#">This is a link</a>
-                                </div>
+                                </div> -->
                     {% endif %}
                 {% endwith %}
           </div>
+        </center>
         </div>
       </div><div class="row">
         <div class="col s12 m7">
          <div class="card">
+          <center>
             {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% if "Plot Me" in messages %}
@@ -180,7 +186,7 @@
                             </script>
 
                         {% else %}
-                              <div class="card-image">
+                            <!--   <div class="card-image">
                                   <img src="static/img/sample-1.jpg">
                                   <span class="card-title">Card Title</span>
                                 </div>
@@ -190,10 +196,10 @@
                                 </div>
                                 <div class="card-action">
                                   <a href="#">This is a link</a>
-                                </div>
+                                </div> -->
                         {% endif %}
                          {% else %}
-                              <div class="card-image">
+                              <!-- <div class="card-image">
                                   <img src="static/img/sample-1.jpg">
                                   <span class="card-title">Card Title</span>
                                 </div>
@@ -203,11 +209,11 @@
                                 </div>
                                 <div class="card-action">
                                   <a href="#">This is a link</a>
-                                </div>
+                                </div> -->
                     {% endif %}
                 {% endwith %}
           </div>
-
+          </center>
         </div>
       </div></div>
         </div>
