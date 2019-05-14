@@ -30,6 +30,7 @@ def pre_process_me(id_image, uploads=True):
         # Save images
         X[0, ..., 0] = x_img.squeeze() / 255
         X[0, ..., 1] = x_csum.squeeze()
+        print(X.shape)
 
         return X, X_feat
     except Exception as e:
