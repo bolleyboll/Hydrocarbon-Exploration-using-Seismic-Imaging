@@ -28,7 +28,7 @@ matplotlib==3.0.3
 mock==3.0.5
 nbformat==4.4.0
 networkx==2.3
-numpy==1.16.3
+numpy==1.22.0
 pandas==0.24.2
 Pillow==6.0.0
 plotly==3.9.0
